@@ -17,7 +17,7 @@ class App extends React.Component {
   }
 
   getReposFromDB() {
-    fetch('http://127.0.0.1:1128/repos').then(response => {
+    fetch('/repos').then(response => {
       if (response.ok) {
         return response.json();
       } else {
@@ -37,7 +37,7 @@ class App extends React.Component {
       mode: 'cors',
       body: JSON.stringify({username: term})
     };
-    fetch('http://127.0.0.1:1128/repos', myInit).then(reponse => {
+    fetch('/repos', myInit).then(reponse => {
       if (reponse.ok) {
         this.getReposFromDB();
       } else {

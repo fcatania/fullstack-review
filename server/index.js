@@ -7,8 +7,12 @@ const cors = require('cors');
 let app = express();
 app.use(express.static(__dirname + '/../client/dist'));
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+  next();
+});
 
-app.use(cors({methods: 'GET,PUT,POST,DELETE,OPTIONS'}));
+app.use(cors());
 
 app.post('/repos', bodyParser.json(), function (req, res) {
   console.log(req.body.username);
