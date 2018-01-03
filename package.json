@@ -5,7 +5,9 @@
   "main": "index.js",
   "scripts": {
     "react-dev": "webpack -d --watch",
-    "server-dev": "nodemon server/index.js"
+    "server-dev": "nodemon server/index.js",
+    "postinstall": "webpack -p",
+    "start": "node server/index.js"
   },
   "author": "Beth Johnson",
   "license": "ISC",
@@ -17,6 +19,11 @@
     "webpack": "^2.2.1"
   },
   "dependencies": {
+    "babel-core": "^6.23.1",
+    "babel-loader": "^6.3.2",
+    "babel-preset-es2015": "^6.22.0",
+    "babel-preset-react": "^6.23.0",
+    "webpack": "^2.2.1",
     "body-parser": "^1.18.2",
     "cors": "^2.8.4",
     "express": "^4.15.0",
