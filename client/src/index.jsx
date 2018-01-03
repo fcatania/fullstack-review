@@ -11,8 +11,12 @@ class App extends React.Component {
       repos: []
     }
   }
-  
+
   componentDidMount() {
+    this.getReposFromDB();
+  }
+
+  getReposFromDB() {
     fetch('http://127.0.0.1:1128/repos').then(response => {
       if (response.ok) {
         return response.json();
@@ -25,7 +29,6 @@ class App extends React.Component {
   }
 
   search (term) {
-    console.log(`${term} was searched`);
     var myHeaders = new Headers();
     myHeaders.append("Content-Type", "application/json");
     var myInit = {
@@ -35,11 +38,10 @@ class App extends React.Component {
       body: JSON.stringify({username: term})
     };
     fetch('http://127.0.0.1:1128/repos', myInit).then(reponse => {
-      console.log(reponse);
       if (reponse.ok) {
-        console.log('OK!');
+        this.getReposFromDB();
       } else {
-        console.error('Error occurred while fetching (POST).');
+        console.error('Error occurred while posting, that user\'s repos already in base.');
       }
     });
   }
@@ -47,8 +49,8 @@ class App extends React.Component {
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search.bind(this)}/>
+      <RepoList repos={this.state.repos}/>
     </div>)
   }
 }
