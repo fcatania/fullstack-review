@@ -20,7 +20,7 @@ class App extends React.Component {
         console.error('Error occurred while fetching (GET).')
       }
     }).then(json => {
-      console.log(json);
+      this.setState({repos: json});
     });
   }
 
