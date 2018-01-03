@@ -8,7 +8,7 @@ let app = express();
 app.use(express.static(__dirname + '/../client/dist'));
 
 
-app.use(cors());
+app.use(cors({methods: 'GET,PUT,POST,DELETE,OPTIONS'}));
 
 app.post('/repos', bodyParser.json(), function (req, res) {
   console.log(req.body.username);
