@@ -11,10 +11,23 @@ app.use(express.static(__dirname + '/../client/dist'));
 app.use(cors());
 
 app.post('/repos', bodyParser.json(), function (req, res) {
-  // TODO: Get repos from github API.
   console.log(req.body.username);
-  // getReposByUsername(req.body.username);
-  // TO BE CONTINUED...
+  getReposByUsername(req.body.username, (err, data) => {
+    if (err) {
+      console.log('GitHub API failed.');
+      res.send(502, 'GitHub API failed to deliver.');
+      return;
+    }
+    save(JSON.parse(data), err => {
+      if (err) {
+        console.log('Error while saving.');
+        res.send(500, 'Save to DB failed.');
+        return;
+      }
+      console.log('Saved successfully.');
+      res.send(201, 'Created Repos in DB.');
+    });
+  });
 });
 
 app.get('/repos', function (req, res) { // TODO: Sort the TOP 25, however I want.

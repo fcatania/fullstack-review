@@ -16,27 +16,21 @@ let repoSchema = mongoose.Schema({
 
 let Repo = mongoose.model('Repo', repoSchema);
 
-let save = (data) => { // although i could use it sending always an array, and if i wish to save one
-                       // it will be an array of one length
-  if (!Array.isArray(data)) {
-    saveSingleRepo(data);
-  } else {
-    data.forEach(saveSingleRepo);
-  }
-
-  // Won't work because my repo schema has owner id and login instead of the whole object.
-  // Repo.create(data, (err, repos) => {
-  //   console.log('Saved: ' + repos);
-  // });
+let save = (data, callback) => {
+  let repos = [];
+  data.forEach(repo => {
+    repos.push(transformRepoIntoSchemaRepo(repo));
+  });
+  Repo.create(repos, err => {
+    callback(err);
+  });
 }
 
-let saveSingleRepo = (repo) => { // assuming I will send as argument a repo as found in data.json
+let transformRepoIntoSchemaRepo = (repo) => { // assuming I will send as argument a repo as found in data.json
   let repoToAdd = new Repo(repo);
   repoToAdd.owner_id = repo.owner.id;
   repoToAdd.owner_login = repo.owner.login;
-  repoToAdd.save((err, repoToAdd) => {
-    console.log('Saved repo: ' + repoToAdd.name + ', with id: ' + repoToAdd.id);
-  });
+  return repoToAdd;
 };
 
 module.exports.save = save;
