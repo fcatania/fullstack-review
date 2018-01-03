@@ -30,18 +30,21 @@ app.post('/repos', bodyParser.json(), function (req, res) {
   });
 });
 
-app.get('/repos', function (req, res) { // TODO: Sort the TOP 25, however I want.
-  Repo.find((err, repos) => {
-    if (err) {
-      console.error(err);
-      res.send(500, 'Error produced?');
-      return;
-    }
-    if (repos.length > 0) {
-      res.json(repos);
-    } else {
-      res.send(404, 'No Repos in DB.');
-    }
+app.get('/repos', function (req, res) {
+  Repo.find()
+    .sort({stargazers_count: -1}) // descending order by star count.
+    .limit(25)
+    .exec((err, repos) => {
+      if (err) {
+        console.error(err);
+        res.send(500, 'Error produced?');
+        return;
+      }
+      if (repos.length > 0) {
+        res.json(repos);
+      } else {
+        res.send(404, 'No Repos in DB.');
+      }
     });
 });
 
