@@ -4,6 +4,13 @@ const { save, Repo } = require('../database/index.js');
 
 app.use(express.static(__dirname + '/../client/dist'));
 
+// Allowing CORS. Can also use 'cors' middleware.
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 app.post('/repos', function (req, res) {
   // TODO: Get repos from github API.
   // console.log(req.body); // TODO: require and npm install bodby parser middleware to easy get body.
@@ -20,9 +27,9 @@ app.get('/repos', function (req, res) { // TODO: Sort the TOP 25, however I want
     if (repos.length > 0) {
       res.json(repos);
     } else {
-      res.send(502, 'No Repos in DB.');
+      res.send(404, 'No Repos in DB.');
     }
-  });
+    });
 });
 
 let port = 1128;
