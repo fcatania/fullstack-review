@@ -26,7 +26,15 @@ class App extends React.Component {
 
   search (term) {
     console.log(`${term} was searched`);
-    fetch('http://127.0.0.1:1128/repos', {method: 'POST', body: term, mode: 'cors'}).then(reponse => {
+    var myHeaders = new Headers();
+    myHeaders.append("Content-Type", "application/json");
+    var myInit = {
+      method: 'POST',
+      headers: myHeaders,
+      mode: 'cors',
+      body: JSON.stringify({username: term})
+    };
+    fetch('http://127.0.0.1:1128/repos', myInit).then(reponse => {
       console.log(reponse);
       if (reponse.ok) {
         console.log('OK!');
