@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  id: { type: Number , unique: true, required: true, dropDups: true },
+  id: { type: Number, unique: true, required: true, dropDups: true },
   name: String,
   owner_id: Number,
   owner_login: String,
@@ -40,3 +40,4 @@ let saveSingleRepo = (repo) => { // assuming I will send as argument a repo as f
 };
 
 module.exports.save = save;
+module.exports.Repo = Repo;
